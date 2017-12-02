@@ -1,11 +1,20 @@
-const sample = {
+const sample1 = {
   input: [
   '5	1	9	5',
   '7	5	3',
   '2	4	6	8',
   ],
-  answer: 18,
+  answer: () => 18,
 };
+
+const sample2 = {
+  input: [
+    '5	9	2	8',
+    '9	4	7	3',
+    '3	8	6	5',
+  ],
+  answer: () => 9,
+}
 
 const real = {
   input: [
@@ -26,12 +35,12 @@ const real = {
     '235	4935	4249	3316	1202	221	1835	380	249	1108	1922	5607	4255	238	211	3973',
     '1738	207	179	137	226	907	1468	1341	1582	1430	851	213	393	1727	1389	632',
   ],
-  answer: 48357,
+  answer: evenDivisible => evenDivisible ? 351 : 48357,
 };
 
-function solve(data) {
-  return data.map(line => line.split('	'))
-    .map(line => line.reduce((result, i) => {
+function solve(data, evenDivisible = false) {
+  function byDiff(line) {
+    const solution = line.reduce((result, i) => {
       result.largest = Math.max(result.largest, i);
       result.smallest = Math.min(result.smallest, i);
       return result;
@@ -39,19 +48,40 @@ function solve(data) {
       line,
       largest: 0,
       smallest: Number.MAX_SAFE_INTEGER,
-    }))
+    });
+
+    console.log(`${solution.line} smallest: ${solution.smallest} largest: ${solution.largest} diff: ${solution.largest - solution.smallest}`);
+    return solution.largest - solution.smallest;
+  }
+
+  function byEvenDivisibility(line) {
+    const solution = line.reduce((result, curr) => {
+      const others = line.filter(i => i !== curr);
+      const evenDivisible = others.filter(other => curr % other === 0 || other % curr === 0);
+      return result.concat(evenDivisible);
+    }, []);
+    
+    const largest = Math.max(solution[0], solution[1]);
+    const smallest = Math.min(solution[0], solution[1]);
+    console.log(`${line} => ${largest} / ${smallest} = ${largest/smallest}`);
+    return largest/smallest;
+  }
+
+  return data.map(line => line.split('	'))
     .map(line => {
-      console.log(`${line.line} smallest: ${line.smallest} largest: ${line.largest} diff: ${line.largest - line.smallest}`);
-      return line;
+      if (!evenDivisible) return byDiff(line);
+      return byEvenDivisibility(line);
     })
-    .map(line => line.largest - line.smallest)
     .reduce((result, diff) => result + diff, 0);
+;
 }
 
-function test(data) {
-  const sampleAnswer = solve(data.input);
-  console.log(`${sampleAnswer} === ${data.answer} ${sampleAnswer === data.answer}`);
+function test(data, evenDivisible = false) {
+  const sampleAnswer = solve(data.input, evenDivisible);
+  console.log(`${sampleAnswer} === ${data.answer(evenDivisible)} ${sampleAnswer === data.answer(evenDivisible)}`);
 }
 
-test(sample);
+test(sample1);
+test(sample2, true);
 test(real);
+test(real, true);
