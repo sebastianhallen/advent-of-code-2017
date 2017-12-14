@@ -1,14 +1,3 @@
-const fs = require('fs');
-const inputFile = process.argv.pop();
-
-function parse(line) {
-  const parsed = /^(\d+): (\d+))$/.exec(line)
-  return {
-    depth: parseInt(parsed[1], 10),
-    range: parseInt(parsed[2], 10),
-  };
-}
-
 function reverse(numbers, length, currentPosition) {
   const spillOver = numbers.length - currentPosition - length;
   console.log(`current position: ${currentPosition}`);
@@ -65,13 +54,3 @@ function solve(listSize, lengths) {
 solve(5, [3, 4, 1, 5]);
 solve(10, [3, 8, 7, 2, 9, 5]);
 solve(256, [70,66,255,2,48,0,54,48,80,141,244,254,160,108,1,41]);
-/*
-fs.readFile(inputFile, (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-
-  const input = data.toString().split('\n').map(parse);
-});
-*/
