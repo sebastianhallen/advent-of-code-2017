@@ -1,3 +1,4 @@
+require('../lib/array-extensions');
 const fs = require('fs');
 const sample = buildGraph(`0 <-> 2
 1 <-> 1
@@ -83,5 +84,5 @@ fs.readFile('day12.input', (err, data) => {
     return span(graph, l.id).sort().join('-');
   })
   
-  console.log(spans.filter((item, index, self) => self.indexOf(item) === index).length);
+  console.log(spans.unique().length);
 });

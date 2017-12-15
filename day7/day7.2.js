@@ -1,3 +1,4 @@
+require('../lib/array-extensions');
 const fs = require('fs');
 const sample = `pbga (66)
 xhth (57)
@@ -36,7 +37,7 @@ function asTree(data) {
   function appendChildren(rootNode, level = 0) {
     rootNode.level = level;
     rootNode.children = rootNode.children.map(child => appendChildren(nodes.filter(node => node.name === child)[0], level + 1));
-    rootNode.levelWeight = rootNode.weight + rootNode.children.reduce((w, child) => w + child.levelWeight, 0);
+    rootNode.levelWeight = rootNode.weight + rootNode.children.sum(x => x.levelWeight);
     return rootNode;
   }
 
@@ -58,8 +59,7 @@ function isBalanced(node) {
 }
 
 function childWeights(node) {
-  const childWeights = [...new Set(node.children.map(c => c.levelWeight))];
-  return childWeights;
+  return node.children.map(c => c.levelWeight).unique()
 }
 
 function solve(data) {  
