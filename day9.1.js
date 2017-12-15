@@ -38,6 +38,7 @@ function parse(line) {
 
     if (state === 'garbage') {
       if (token !== '>') {
+        result.garbage += 1;
         result.state.push('garbage');
       }
 
@@ -54,7 +55,7 @@ function parse(line) {
       result.depth -= 1;
     }
     return result;
-  }, { score: 0, depth: 0, state: ['root'] });
+  }, { score: 0, garbage: 0, depth: 0, state: ['root'] });
 }
 
 fs.readFile(inputFile, (err, data) => {
@@ -65,6 +66,6 @@ fs.readFile(inputFile, (err, data) => {
 
   const input = data.toString().split('\n').filter((x, i) => i === sampleIndex).map(parse)[0];
 
+  console.log(`garbage: ${input.garbage}`);
   console.log(`score: ${input.score}`);
-
 });
