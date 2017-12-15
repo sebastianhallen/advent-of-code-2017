@@ -1,4 +1,4 @@
-const knotHash = require('./knothash');
+const knotHash = require('../lib/knothash');
 
 function asBits(hex) {
   const bits = parseInt(hex, 16).toString(2);

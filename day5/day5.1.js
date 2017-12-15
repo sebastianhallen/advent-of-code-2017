@@ -1,4 +1,4 @@
-const { test } = require('./fluff');
+const { test } = require('../lib/fluff');
 const fs = require('fs');
 
 const sample = {
@@ -11,9 +11,6 @@ function print(instructions, pointer) {
 }
 
 function modifyInstruction(instruction) {
-  if (instruction >= 3) {
-    return instruction - 1;
-  }
   return instruction + 1;
 }
 
@@ -21,6 +18,7 @@ function solve(instructions) {
   let pointer = 0;
   for(let i = 1; true; i++) {
     //print(instructions, pointer);
+    console.log(pointer);
     instruction = instructions[pointer];
     instructions[pointer] = modifyInstruction(instructions[pointer]);
     

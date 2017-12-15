@@ -1,4 +1,4 @@
-const { test } = require('./fluff');
+const { test } = require('../lib/fluff');
 
 const sample1 = [{
   input: 1,

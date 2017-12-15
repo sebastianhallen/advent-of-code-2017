@@ -1,4 +1,4 @@
-const { test } = require('./fluff');
+const { test } = require('../lib/fluff');
 
 const sample = [{
   input: [0, 2, 7, 0],
@@ -48,7 +48,11 @@ function solve(blocks) {
     
   } while(!seen.includes(blocks.join('-')));
 
-  return seen.length;
+  const pattern = blocks.join('-');
+  
+  const first = seen.findIndex(candidate => candidate === pattern);
+  const second = seen.length;
+  return second - first;
 }
 
 console.log(solve(sample[0].input));
